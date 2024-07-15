@@ -8,3 +8,5 @@ This repository implements the Enhanced Super-Resolution Generative Adversarial 
 - **Relativistic GAN**: Implements the relativistic GAN framework to enhance the stability and quality of generated images.
 
 - **VGG19 Feature Loss**: Incorporates the VGG19 architecture for perceptual loss calculation, enhancing visual quality by aligning generated images with high-level features of reference images.
+
+- **Pixel Shuffler**: Based on the paper https://arxiv.org/abs/1609.05158
