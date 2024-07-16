@@ -5,6 +5,8 @@ Implementing the paper ESRGAN(Enhanced Super Resolution General Adverserial Netw
 import torch 
 import torch.nn as nn
 import torch.nn.functional as F
+import torchvision.models as models
+
 
 class RRDB(nn.Module):
     def __init__(self, beta):
@@ -115,6 +117,28 @@ def adversarial_loss(xr_xf, xf_xr, beta):
     generator_loss = -torch.mean(torch.log(xf_xr),keepdim=True) - torch.mean((torch.log(1-xr_xf)), keepdim=True)
     return disciminator_loss, generator_loss
 
+# perceptual loss before the activation layer 
+class VGG19FeatureExtractor(nn.Module):
+    def __init__(self, target_layer):
+        self.vgg19 = models.vgg19()
+        self.target_layer = target_layer
+    def forward(self, x):
+        for name, layer in self.vgg19._modules.items():
+            x = layer(x)
+            if name == self.target_layer:
+                return x
+
+          
+def perceptual_loss(self, generator_image, input_image, features_extractor):
+    features_generator = features_extractor(generator_image)
+    features_input = features_extractor(input_image)
+    perceptual_loss = F.mse_loss(features_generator, features_input)
+    return perceptual_loss
+
+
+    
+
+    
 
     
     
